@@ -34,17 +34,17 @@ public class EconomyManager implements Listener {
 
     private final Map<UUID, Integer> playerQueue = new HashMap<>();
 
-    private boolean isEnabled = false;
+    private boolean enabled = false;
 
     public EconomyManager() {
         if (INSTANCE.getServer().getPluginManager().isPluginEnabled("Essentials")) {
-            isEnabled = true;
+            enabled = true;
             LOGGER.info("Essentials found. Enabling hook.");
         }
     }
 
     public void addPlayerToQueue(Player player) {
-        if (!isEnabled) {
+        if (!enabled) {
             return;
         }
 
@@ -63,7 +63,7 @@ public class EconomyManager implements Listener {
     }
 
     public void removePlayerFromQueue(Player player) {
-        if (!isEnabled || !playerQueue.containsKey(player.getUniqueId())) {
+        if (!enabled || !playerQueue.containsKey(player.getUniqueId())) {
             return;
         }
 
@@ -75,7 +75,7 @@ public class EconomyManager implements Listener {
     public void updatePlayerEconomy(Player player) {
         FileConfiguration config = INSTANCE.getConfig();
 
-        if (isEnabled && config.getBoolean("economy.enabled") && PLAYERS_CACHE.has(player.getUniqueId())) {
+        if (enabled && config.getBoolean("economy.enabled") && PLAYERS_CACHE.has(player.getUniqueId())) {
             User eUser = ESSENTIALS.getUser(player);
 
             int money = eUser.getMoney().multiply(new BigDecimal(1000)).intValue();
@@ -100,5 +100,9 @@ public class EconomyManager implements Listener {
 
             LABY_MOD_CHANNEL.sendLabyMessage(player, "economy", economyObject);
         }
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 }

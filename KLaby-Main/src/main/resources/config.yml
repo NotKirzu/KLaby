@@ -30,10 +30,10 @@ menu:
 server-name:
   friends:
     enabled: true
-    name: "&9&lFeles&b&lCraft"
+    name: "&eYour Server" # Supports color codes
   discord:
     enabled: true
-    name: "FelesCraft"
+    name: "Your Server"
 economy:
   enabled: true # This system only works with the Essentials economy. More economies and placeholders will be supported soon.
   icon:
@@ -44,7 +44,7 @@ subtitle:
   subtitles:
     staff:
       size: 0.8 # number between 0.8 and 1.6 (minecraft default)
-      text: "&eStaff member"
+      text: "&eStaff member" # Supports PlaceholderAPI
       permission: "klaby.staff"
     vip:
       size: 0.8

@@ -37,7 +37,9 @@ public class PlayerEvents implements Listener {
 
         PLAYERS_CACHE.set(player.getUniqueId(), event.getPlayerData());
 
-        ECONOMY.addPlayerToQueue(player);
+        if (ECONOMY.isEnabled()) {
+            ECONOMY.addPlayerToQueue(player);
+        }
         sendDiscordServer(player);
         sendFriendServer(player);
         sendNotification(player);
@@ -78,7 +80,7 @@ public class PlayerEvents implements Listener {
                 ConfigurationSection title = config.getConfigurationSection("subtitle.subtitles." + subtitle);
                 subtitleJson.addProperty("uuid", onlinePlayer.toString());
                 subtitleJson.addProperty("size", title.getDouble("size"));
-                subtitleJson.addProperty("value", title.getString("text"));
+                subtitleJson.addProperty("value", PAPI_HOOK.format(onlinePlayer, title.getString("text")));
 
                 array.add(subtitleJson);
             }

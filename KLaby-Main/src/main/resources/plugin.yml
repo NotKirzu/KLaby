@@ -1,0 +1,31 @@
+name: KLaby
+version: 3.1
+main: ga.kirzu.klaby.KLaby
+api-version: 1.13
+author: "Kiirzu"
+description: "KLaby is a powerful LabyMod addon that allows your server to interact with the LabyMod Client."
+softdepend:
+  - PlaceholderAPI
+  - Essentials
+commands:
+  klist:
+    permission: "klaby.cmd.list"
+    permission-message: "§cMissing permissions."
+    description: "Shows online players using LabyMod"
+    usage: "/klist"
+  kcheckinfo:
+    aliases: ["kci", "kchecki"]
+    permission: "klaby.cmd.checkinfo"
+    permission-message: "§cMissing permissions."
+    description: "Shows LabyMod player addons"
+    usage: "/kcheckinfo <Player>"
+permissions:
+  klaby.cmd.list:
+    default: op
+  klaby.cmd.checkinfo:
+    default: op
+  klaby.cmd.*:
+    default: op
+    children:
+      klaby.cmd.list: true
+      klaby.cmd.checkinfo: true

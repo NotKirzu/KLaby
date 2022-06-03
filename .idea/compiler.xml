@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="KLaby-1_12_R1" />
+        <module name="KLaby-NMS" />
+        <module name="KLaby-1_17_R1" />
+        <module name="KLaby-1_18_R2" />
+        <module name="KLaby-1_16_R3" />
+        <module name="KLaby-Main" />
+        <module name="KLaby-1_18_R1" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

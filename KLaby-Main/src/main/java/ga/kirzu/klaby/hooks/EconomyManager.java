@@ -1,21 +1,20 @@
 package ga.kirzu.klaby.hooks;
 
-import com.earth2me.essentials.IEssentials;
-import com.earth2me.essentials.User;
 import com.google.gson.JsonObject;
 import ga.kirzu.klaby.KLaby;
 import ga.kirzu.klaby.PlayersCache;
 import ga.kirzu.klaby.factory.LabyChannelProvider;
 import ga.kirzu.klaby.nms.LabyModChannel;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -27,20 +26,35 @@ public class EconomyManager implements Listener {
             = LabyChannelProvider.getLabyModChannel();
     private final static PlayersCache PLAYERS_CACHE
             = KLaby.getPlayersCache();
-    private final static IEssentials ESSENTIALS
-            = KLaby.getEssentials();
     private final static KLaby INSTANCE
             = KLaby.getInstance();
 
     private final Map<UUID, Integer> playerQueue = new HashMap<>();
 
     private boolean enabled = false;
+    private Economy economy = null;
 
     public EconomyManager() {
-        if (INSTANCE.getServer().getPluginManager().isPluginEnabled("Essentials")) {
+        if (setupEconomy()) {
             enabled = true;
-            LOGGER.info("Essentials found. Enabling hook.");
+
+            LOGGER.info("Vault found. Enabling hook.");
         }
+    }
+
+    private boolean setupEconomy() {
+        if (INSTANCE.getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+
+        RegisteredServiceProvider<Economy> rsp = INSTANCE.getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+
+        economy = rsp.getProvider();
+
+        return economy != null;
     }
 
     public void addPlayerToQueue(Player player) {
@@ -76,9 +90,7 @@ public class EconomyManager implements Listener {
         FileConfiguration config = INSTANCE.getConfig();
 
         if (enabled && config.getBoolean("economy.enabled") && PLAYERS_CACHE.has(player.getUniqueId())) {
-            User eUser = ESSENTIALS.getUser(player);
-
-            int money = eUser.getMoney().multiply(new BigDecimal(1000)).intValue();
+            int money = (int) (economy.getBalance(player) * 1000);
 
             JsonObject economyObject = new JsonObject();
             JsonObject cashObject = new JsonObject();

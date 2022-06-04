@@ -1,7 +1,5 @@
 package ga.kirzu.klaby;
 
-import com.earth2me.essentials.Essentials;
-import com.earth2me.essentials.IEssentials;
 import ga.kirzu.klaby.commands.CheckInfoCommand;
 import ga.kirzu.klaby.commands.ListCommand;
 import ga.kirzu.klaby.hooks.EconomyManager;
@@ -23,15 +21,12 @@ public class KLaby extends JavaPlugin {
     private static EconomyManager economyManager;
     private static PlaceholderAPIHook papiHook;
     private static PlayersCache playersCache;
-    private static IEssentials essentials;
     private static KLaby instance;
 
     @Override
     public void onEnable() {
         instance = this;
         registerConfig();
-
-        essentials = getPlugin(Essentials.class);
 
         playersCache = new PlayersCache();
         papiHook = new PlaceholderAPIHook();
@@ -53,10 +48,6 @@ public class KLaby extends JavaPlugin {
 
     public static EconomyManager getEconomy() {
         return economyManager;
-    }
-
-    public static IEssentials getEssentials() {
-        return essentials;
     }
 
     public static PlayersCache getPlayersCache() {
